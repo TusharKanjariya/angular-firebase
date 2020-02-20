@@ -1,0 +1,78 @@
+<div class="bg-light p-3 rounded">
+  <h2 class="text-center">Login</h2>
+  <!-- User Notification Feedback -->
+  <div
+    *ngIf="showError"
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+  >
+    {{ errorMessage || "Something went Wrong" }}
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+      (click)="showError = false"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div
+    *ngIf="showMessage"
+    class="alert alert-success alert-dismissible fade show"
+    role="alert"
+  >
+    {{ errorMessage || "Done !" }}
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+      (click)="showMessage = false"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- User Notification Feedback -->
+  <form [formGroup]="loginForm" (submit)="onSubmit()">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Enter email"
+        formControlName="email"
+        name="email"
+        required
+      />
+      <small
+        *ngIf="!controls.email.pristine && !controls.email.valid"
+        class="form-text text-danger"
+        >Email is Required</small
+      >
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Password"
+        formControlName="password"
+        name="password"
+        required
+      />
+      <small
+        *ngIf="
+          !controls.password.valid &&
+          (controls.password.dirty || controls.password.touched)
+        "
+        class="form-text text-danger"
+        >Password is Required</small
+      >
+    </div>
+    <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">
+      <span class="spinner-border spinner-border-sm" *ngIf="showLoader"></span>
+      Submit
+    </button>
+  </form>
+</div>
