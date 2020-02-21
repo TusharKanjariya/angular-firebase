@@ -16,6 +16,13 @@ export class RegisterComponent implements OnInit {
     private route: Router
   ) {}
 
+  ngOnInit() {
+    this.controls = this.registerForm.controls;
+    this.auth.status.subscribe((val: boolean) => {
+      this.showLoader = val;
+    });
+  }
+
   controls;
   errorMessage: string;
   showError: boolean = false;
@@ -30,13 +37,6 @@ export class RegisterComponent implements OnInit {
     ])
   });
 
-  ngOnInit() {
-    this.controls = this.registerForm.controls;
-    this.auth.status.subscribe((val: boolean) => {
-      this.showLoader = val;
-    });
-  }
-
   onSubmit() {
     this.auth.display(true);
     let user = this.registerForm.value;
@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
         this.showMessage = true;
         this.errorMessage = res["message"];
         this.auth.display(false);
-        // this.route.navigate(["login"]);
+        this.route.navigate(["login"]);
       })
       .catch(err => {
         this.showError = true;

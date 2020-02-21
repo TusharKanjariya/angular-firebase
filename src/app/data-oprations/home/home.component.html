@@ -1,1 +1,36 @@
-<p>home works!</p>
+<div class="d-flex justify-content-center" *ngIf="showLoader">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div *ngIf="!showLoader">
+  <table class="table table-striped" *ngIf="isData">
+    <tr>
+      <th>Name</th>
+      <th>Post</th>
+      <th>Age</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let val of usersData | async">
+      <td>{{ val.payload.val().name }}</td>
+      <td>{{ val.payload.val().post }}</td>
+      <td>{{ val.payload.val().age }}</td>
+      <td>
+        <button class="btn btn-danger btn-sm mr-2" (click)="delete(val.key)">
+          <i class="fas fa-trash"></i>
+        </button>
+        <a
+          href="#!"
+          [routerLink]="['edit/', val.key]"
+          class="btn btn-info btn-sm"
+        >
+          <i class="fas fa-pen"></i>
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <div class="alert alert-warning" *ngIf="!isData">
+    <strong>Database is Empty</strong>
+  </div>
+</div>

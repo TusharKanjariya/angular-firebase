@@ -29,10 +29,10 @@ export class AuthService {
     this.auth.authState.subscribe(user => {
       if (user) {
         this.user = user;
-        return this.user;
+        sessionStorage.setItem("user", user.email);
       } else {
         this.user = null;
-        return this.user;
+        sessionStorage.clear();
       }
     });
   }

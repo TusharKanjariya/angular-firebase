@@ -1,5 +1,5 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validator, Validators } from "@angular/forms";
+import { Component, OnInit, NgZone } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../auth-service.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
@@ -13,7 +13,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private toast: ToastrService,
-    private route: Router
+    private route: Router,
+    private ngZone: NgZone
   ) {}
   controls;
   errorMessage: string;
@@ -39,13 +40,12 @@ export class LoginComponent implements OnInit {
     this.auth
       .login(user.email, user.password)
       .then(res => {
-        console.log(res);
         this.toast.success("Welcome " + res.user.email, "Login Successful");
         this.showMessage = true;
         sessionStorage.setItem("user", res.user.email);
         this.errorMessage = res["message"];
         this.auth.display(false);
-        this.route.navigate(["register"]);
+        this.ngZone.run(() => this.route.navigate(["dashboard"]));
       })
       .catch(err => {
         this.showError = true;

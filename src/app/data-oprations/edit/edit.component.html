@@ -1,1 +1,108 @@
-<p>edit works!</p>
+<div class="d-flex justify-content-center" *ngIf="showLoader">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div>
+  <div class="bg-light p-3 rounded" *ngIf="!showLoader">
+    <h2 class="text-center">Edit Data</h2>
+    <div
+      *ngIf="showError"
+      class="alert alert-danger alert-dismissible fade show"
+      role="alert"
+    >
+      {{ errorMessage || "Something went Wrong" }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+        (click)="showError = false"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div
+      *ngIf="showMessage"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
+      {{ errorMessage || "Done !" }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+        (click)="showMessage = false"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="editForm" (submit)="onSubmit()">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Name"
+          formControlName="name"
+          name="name"
+          required
+        />
+        <small
+          *ngIf="!controls.name.pristine && !controls.name.valid"
+          class="form-text text-danger"
+          >Name is Required</small
+        >
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Post</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Ex: Senier Programmer, Graphic Designer"
+          formControlName="post"
+          name="post"
+          required
+        />
+        <small
+          *ngIf="
+            !controls.post.valid &&
+            (controls.post.dirty || controls.post.touched)
+          "
+          class="form-text text-danger"
+          >Post is Required</small
+        >
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Age</label>
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Age"
+          formControlName="age"
+          name="age"
+          required
+        />
+        <small
+          *ngIf="
+            !controls.age.valid && (controls.age.dirty || controls.age.touched)
+          "
+          class="form-text text-danger"
+          >Age is Required</small
+        >
+      </div>
+      <button
+        type="submit"
+        [disabled]="!editForm.valid"
+        class="btn btn-primary"
+      >
+        <span
+          class="spinner-border spinner-border-sm"
+          *ngIf="showLoader"
+        ></span>
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
